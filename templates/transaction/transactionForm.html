@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+
+{% block head_title %}Transfer Money{% endblock %}
+
+{% block content %}
+    <div class="absolute top-3 right-3" >
+        <a type="button" href="../../logout "  id="testLogout"
+            class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+            logout</a>
+    </div>
+    <div class="absolute top-3 right-28">
+        <a type="button" href="{% url 'transaction:transactionList' request.user.id %}"
+            class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+            report</a>
+    </div>
+
+<div class="container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2	">
+    <div class="p-6 lg:w-7/12 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+
+            <form  method="post">
+            {% csrf_token %}
+            {% for message in messages %}
+                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                <span class="font-bold">{{ message }}</span>
+            </div>            
+            {% endfor %}
+
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="relative z-0 mb-6 w-full group">
+                <input type="text" name="sender" id="sender"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " required="">
+                <label for="sender"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                    peer-focus:scale-75 peer-focus:-translate-y-6">Sender Name</label>
+            </div>
+            <div class="relative z-0 mb-6 w-full group">
+                <input type="text" name="sender_acc" id="sender_acc"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " required="">
+                <label for="sender_acc"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500
+                     dark:text-gray-400 duration-300 
+                     transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
+                     peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Account Number</label>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="relative z-0 mb-6 w-full group">
+                <input type="text" name="receiver" id="receiver"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " required="">
+                <label for="receiver" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                            peer-focus:scale-75 peer-focus:-translate-y-6">Receiver Name</label>
+            </div>
+            <div class="relative z-0 mb-6 w-full group">
+                <input type="text" name="receiver_acc" id="receiver_acc"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " required="">
+                <label for="receiver_acc"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500
+                             dark:text-gray-400 duration-300 
+                             transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
+                             peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Account Number</label>
+            </div>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <input type="number" name="amount" id="amount" min="1"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required="">
+            <label for="amount" 
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 
+                transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
+                peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                peer-focus:scale-75 peer-focus:-translate-y-6">Amount</label>
+        </div>
+        <button type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+    </form>
+    </div>
+
+</div>
+
+{% endblock %}

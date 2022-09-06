@@ -1,0 +1,52 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>
+        {% block head_title %}{% endblock %}
+    </title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+    {% block head_extra %}{% endblock %}
+</head>
+
+<body class="bg-gray-100">
+    {% block body %}
+    
+<div id="app">
+    <!-- main content -->
+<div class="lg:container lg:mx-auto">
+    {% block content %}
+    <!-- Add content here -->
+    {% endblock %}
+</div>
+</div>
+  
+
+    {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify({
+                rtl: true,
+            }),
+            data: () => ({
+                //#region Forms variables (change password & suggestion)
+                show1: false,
+            }),
+            delimiters: ['[[', ']]'], // change vue variables syntax from {{ to [[
+        })
+    </script>
+</body>
+
+</html>
