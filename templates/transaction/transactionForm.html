@@ -20,9 +20,17 @@
             <form  method="post">
             {% csrf_token %}
             {% for message in messages %}
-                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+
+            {% if messageL == 'success' %}
+            <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                        <span class="font-bold">{{ message }}</span>
+            </div>
+            {% else %}
+            <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
                 <span class="font-bold">{{ message }}</span>
-            </div>            
+            </div>
+            {% endif %}
+
             {% endfor %}
 
         <div class="grid md:grid-cols-2 md:gap-6">

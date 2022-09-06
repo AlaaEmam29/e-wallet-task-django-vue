@@ -11,6 +11,8 @@ from .constants import FEEZ
 
 # Create your views here.
 def transactionForm(request):
+    messageL = 'success'
+
     if request.method == 'POST':
         sender = request.POST['sender']
         receiver = request.POST['receiver']
@@ -38,37 +40,53 @@ def transactionForm(request):
                 transfer.save()
                 owner.balance += amount 
                 owner.save()
+                message = 'success'
 
 
                 messages.success(request, "Transaction Successful")
-                return render(request, "transaction/transactionForm.html")
+                return render(request, "transaction/transactionForm.html" , {'messageL':messageL})
             elif sender_user.balance < amount:
+                message = 'error'
                 messages.info(request, f'You have {sender_user.balance} $ in your account. '
                 'You can not send more than your account balance')
-                return render(request, "transaction/transactionForm.html")
+                return render(request, "transaction/transactionForm.html", {'message':message})
             elif sender_user.balance == amount :
+                messageL = 'error'
                 messages.info(request,f'you can not send your account balance you should have at least have 1$ in your account ')
-                return render(request, "transaction/transactionForm.html")
+                return render(request, "transaction/transactionForm.html", {'messageL':messageL})
             elif sender_user.balance == 0:
+                messageL = 'error'
                 messages.info(request, "You can not send money from your account because your account balance is 0")
-                return render(request, "transaction/transactionForm.html")
+                return render(request, "transaction/transactionForm.html", {'messageL':messageL})
             elif sender == receiver:
+                messageL = 'error'
                 messages.info(request, "You can not send money to your self")
-                return render(request, "transaction/transactionForm.html")
+                return render(request, "transaction/transactionForm.html", {'messageL':messageL})
         else:
+            messageL = 'error'
             messages.info(request, "Name or Account number is incorrect , please try again")
-            return render(request, "transaction/transactionForm.html")
-    return render(request, "transaction/transactionForm.html")
+            return render(request, "transaction/transactionForm.html", {'messageL':messageL})
+    return render(request, "transaction/transactionForm.html", {'messageL':messageL})
 
 
 def transactionList(request, id):
-    user = UserAccount.objects.get(user_id=id)
+    user =  UserAccount.objects.get(user_id=id)
+    show_date = True
+    is_staff = user.user.is_staff
+    balance = user.balance
+
+    if is_staff == False:
+        show_date = False
+        transfers = Transfer.objects.filter(sender=user).order_by('-timestamp')
+        return render(request, "transaction/transactionList.html", {'transfers':transfers, 'balance':balance , 'show_date':show_date})
     
-    transfers = Transfer.objects.filter(sender=user)
-    all_transfers = Transfer.objects.all()
-    all_transactions = Transaction.objects.all()
+
+    else:
+        show_date = True
+        transfers = Transfer.objects.all().order_by('-timestamp')
+        transactions = Transaction.objects.all().order_by('-timestamp')
+        return render(request, "transaction/transactionList.html", {'transactions':transactions,
+       'transfers' : transfers ,  'balance':balance , 'show_date':show_date})
 
 
-    return render(request, "transaction/transactionList.html", {'transfers': transfers,
-    'user': user ,'all_transfers' : all_transfers ,'all_transactions': all_transactions
-    })
+
